@@ -1,0 +1,109 @@
+import pandas as pd
+
+df = pd.read_csv('PATH.csv')
+
+df
+df.shape
+df.info()
+
+Settings:
+	Display how many cols you want to see
+	pd.set_option('display.max_columns', 85)
+
+
+
+------------------------------FILTER-------------------------------
+
+Displays rows which has value 'Doe' in column 'last'.
+filt = (df['last'] == 'Doe')
+df.loc[filt]
+
+df.loc[] is used to display rows and cols. has 2 args, first for rows and second for cols.
+
+displays rows which has value 'Doe' in column 'last' and their respective emails.
+df.loc[filt, 'email']
+
+&, |, ~ operators->
+Displays rows which has value 'Doe' in column 'last' and value as 'john' in column 'first'.
+filt = (df['last'] == 'Doe') & (df['first'] == 'john')	
+df.loc[filt, email]
+
+Displays EXCLUDING rows which has value 'Doe' in column 'last' and value as 'john' in column 'first'.
+filt = (df['last'] == 'Doe') & (df['first'] == 'john')
+df.loc[~filt, 'email']
+
+displays salaray greater than specified range from col
+high_sal = (df['HIGH_SAL_COL_NAME'] > 7000)
+df.loc[high_sal, ['country', 'lang_known', 'HIGH_SAL_COL_NAME']]
+
+display only countries specified in 'countries' list from a 'COL_NAME_COUNTRY' col.
+countries = ['uk','us','india']
+filt = (df['COL_NAME_COUNTRY'].isin(countries))
+df.loc[filt, 'COL_NAME_COUNTRY']
+
+display all rows which has string 'Python' from col 'LanguageWorkedWith'
+filt = df['LanguageWorkedWith'].str.contains('Python', na=False)
+df.loc[filt, 'LanguageWorkedWith']
+o/p--->(THE RESULTS THUS CONTAINS 'Python')
+	Respondent
+	1                          HTML/CSS;Java;JavaScript;Python
+	2                                      C++;HTML/CSS;Python
+	4                                      C;C++;C#;Python;SQL
+	5              C++;HTML/CSS;Java;JavaScript;Python;SQL;VBA
+
+------------------- MODIFYING DATA (ALERT - CAREFULL WHAT CHANGES YOU MAKE COZ IT WILL PERMANENTLY UPDATED IN DAATASET)-------------------
+--------MODIFYING COLUMN---------------
+
+change cols names to our convinient names
+df.columns = ['first_name', 'last_name', 'email']
+
+change case of cols
+df.columns = [x.upper() for x in df.columns]
+
+insert '_' in cols names, As it will be convinient when accessing thr cols names.
+df.columns = df.columns.str.replace(' ', '_')
+
+if we want to change some of the cols names, then use dictionary.
+df.rename(columns={'first_name': 'first', 'last_name': 'last'}, inplace=True)
+
+--------MODIFYING DATA (ALERT - CAREFULL WHAT CHANGES YOU MAKE COZ IT WILL PERMANENTLY UPDATED IN DAATASET)---------------
+
+update data in rows.
+df.loc[2, ['last', 'email']] = ['Doe', 'JohnDoe@email.com']
+
+update single value
+df.loc[2, 'last'] = 'Smith'
+	or
+df.at[2, 'last'] = 'Doe'
+
+to update a 'name' by identifying 'email' 
+filt = (df['email'] == 'JohnDoe@email.com')
+df[filt]['last'] = 'Smith'
+--errror-->
+/Users/coreyschafer/tutorial_env/lib/python3.7/site-packages/ipykernel_launcher.py:2: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+----------
+use .loc[] to eliminate above error
+filt = (df['email'] == 'JohnDoe@email.com')
+df.loc[filt, 'last'] = 'Smith'
+
+converts a rows in col in lower case
+df['email'] = df['email'].str.lower()
+
+----apply (apply with caution)----
+used for calling function say len() on values. regular fuction can used instead of len.
+df['email'].apply(len)  
+
+
+
+
+
+
+
+
+
+
+
+
+

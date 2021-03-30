@@ -1,0 +1,15 @@
+Following commands are to merge test branch code into your lower branch
+
+git checkout -b test
+git pull
+git checkout test_Adil
+git pull
+git merge test
+git status
+git push origin test_Adil
+
+if get this error-
+	there is no tracking info for the current branch.
+	Please verufy which branch to merge
+then use following commands-
+	git branch --set-upstream-to=origin/test test
